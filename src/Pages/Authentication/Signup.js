@@ -1,12 +1,15 @@
 import React from 'react';
 import auth from '../../firebase.init';
-import { useCreateUserWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Loading from '../../Pages/Shared/Loading';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const Signup = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    let from = location.state?.from?.pathname || "/";
+
     let signInError;
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
@@ -17,16 +20,26 @@ const Signup = () => {
         error,
     ] = useCreateUserWithEmailAndPassword(auth);
 
-    const onSubmit = data => {
-        console.log(data)
-        createUserWithEmailAndPassword(data.email, data.password)
-    };
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
-    if (error || gError) {
-        signInError = <p className='text-red-500'><small>{error?.message}</small></p>
+    const onSubmit = async data => {
+        console.log(data)
+        await createUserWithEmailAndPassword(data.email, data.password);
+        await updateProfile({ displayName: data.name });
+    };
+    const handleSocialLogin = async () => {
+        await signInWithGoogle();
     }
 
-    if (loading || gLoading) {
+    if (user || gUser) {
+        navigate(from, { replace: true });
+    }
+
+    if (error || gError || updateError) {
+        signInError = <p className='text-red-500'><small>{error?.message || gError?.message || updateError?.message}</small></p>
+    }
+
+    if (loading || gLoading || updating) {
         return <Loading></Loading>
     }
 
@@ -107,7 +120,7 @@ const Signup = () => {
                     <p className='text-center'><small>Already have an account? <Link className='text-primary' to="/login">  Please Log in to your account</Link></small></p>
                     <div className="divider">OR</div>
                     <button
-                        onClick={() => signInWithGoogle()}
+                        onClick={handleSocialLogin}
                         className="btn btn-outline"
                     >Continue with Google</button>
                 </div>

@@ -3,6 +3,7 @@ import './App.css';
 import About from './Pages/About/About';
 import Appointment from './Pages/Appointment/Appointment';
 import Login from './Pages/Authentication/Login/Login';
+import RequiredAuth from './Pages/Authentication/RequiredAuth';
 import Signup from './Pages/Authentication/Signup';
 import Home from './Pages/Home/Home/Home';
 import Footer from './Pages/Shared/Footer';
@@ -15,7 +16,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="about" element={<About />} />
-        <Route path="appointment" element={<Appointment />} />
+        <Route path="appointment" element={
+          <RequiredAuth>
+            <Appointment />
+          </RequiredAuth>
+        } />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
       </Routes>
