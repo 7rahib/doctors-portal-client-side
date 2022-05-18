@@ -8,8 +8,8 @@ const BookingCard = ({ service, setTreatment }) => {
             <div className="card-body items-center text-center">
                 <h2 className="card-title text-secondary">{name}</h2>
                 <p>
-                    {slots.length ?
-                        <span>{slots[0]}</span> :
+                    {slots.length > 0 ?
+                        < span > {slots[0]}</span> :
                         <span>Try another day</span>
                     }
                 </p>
@@ -18,7 +18,7 @@ const BookingCard = ({ service, setTreatment }) => {
                     <label disabled={slots.length === 0} onClick={() => setTreatment(service)} htmlFor="booking-modal" className="btn btn-secondary bg-gradient-to-r from-secondary to-primary text-white uppercase">Book Appointment</label>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
