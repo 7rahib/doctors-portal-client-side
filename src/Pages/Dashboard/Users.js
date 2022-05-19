@@ -16,21 +16,23 @@ const Users = () => {
     return (
         <div>
             <div className="text-2xl text-purple-500">Users</div>
-            <div class="overflow-x-auto">
-                <table class="table w-full">
+            <div className="overflow-x-auto">
+                <table className="table w-full">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>Serial</th>
                             <th>Name</th>
-                            <th>Job</th>
-                            <th>Favorite Color</th>
+                            <th>Email</th>
+                            <th>Admin</th>
+                            <th>Remove User</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            users.map(user => <UserRow
+                            users.map((user, index) => <UserRow
                                 key={user._id}
                                 user={user}
+                                index={index}
                                 refetch={refetch}
                             ></UserRow>)
                         }
