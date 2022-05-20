@@ -33,7 +33,7 @@ const MyAppointments = () => {
 
     return (
         <div>
-            <h2 className='text-4xl text-purple-500 my-2'>My Appointments</h2>
+            <h2 className='text-2xl text-secondary my-2 text-center'>My Appointments</h2>
             <div className="overflow-x-auto">
                 <table className="table w-full">
                     <thead>
