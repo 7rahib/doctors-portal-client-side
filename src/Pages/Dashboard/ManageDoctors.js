@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import Loading from '../Shared/Loading'
+import DeleteConfirmationModal from './DeleteConfirmationModal';
 import DoctorRow from './DoctorRow';
 
 const ManageDoctors = () => {
+    const [deletingDoctor, setDeletingDoctor] = useState(null)
+
     const { data: doctors, isLoading, refetch } = useQuery('doctors', () => fetch('https://mysterious-tundra-54205.herokuapp.com/doctor', {
         headers: {
             authorization: `Bearer ${localStorage.getItem('accessToken')}`
@@ -36,13 +39,18 @@ const ManageDoctors = () => {
                             doctors.map((doctor, index) => <DoctorRow
                                 key={doctor._id}
                                 doctor={doctor}
-                                refetch={refetch}
                                 index={index}
+                                setDeletingDoctor={setDeletingDoctor}
                             ></DoctorRow>)
                         }
                     </tbody>
                 </table>
             </div>
+            {deletingDoctor && <DeleteConfirmationModal
+                deletingDoctor={deletingDoctor}
+                refetch={refetch}
+                setDeletingDoctor={setDeletingDoctor}
+            ></DeleteConfirmationModal>}
         </div>
     );
 };

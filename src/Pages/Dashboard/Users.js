@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import Loading from '../Shared/Loading';
+import UserDeleteModal from './UserDeleteModal';
 import UserRow from './UserRow';
 
 const Users = () => {
+    const [deletingUser, setDeletingUser] = useState(null)
     const { data: users, isLoading, refetch } = useQuery('users', () => fetch('https://mysterious-tundra-54205.herokuapp.com/user', {
         method: 'GET',
         headers: {
@@ -34,11 +36,18 @@ const Users = () => {
                                 user={user}
                                 index={index}
                                 refetch={refetch}
+                                setDeletingUser={setDeletingUser}
                             ></UserRow>)
                         }
                     </tbody>
                 </table>
             </div>
+            {deletingUser && <UserDeleteModal
+                deletingUser={deletingUser}
+                refetch={refetch}
+                users={users}
+                setDeletingUser={setDeletingUser}
+            ></UserDeleteModal>}
         </div>
     );
 };

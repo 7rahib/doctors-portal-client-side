@@ -1,7 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 
-const UserRow = ({ user, index, refetch }) => {
+const UserRow = ({ user, index, refetch, setDeletingUser }) => {
     const { email, name, role } = user;
     const makeAdmin = () => {
         fetch(`https://mysterious-tundra-54205.herokuapp.com/user/admin/${email}`, {
@@ -25,33 +25,13 @@ const UserRow = ({ user, index, refetch }) => {
             })
     }
 
-    const handleDelete = email => {
-        fetch(`https://mysterious-tundra-54205.herokuapp.com/user/${email}`, {
-            method: 'DELETE',
-            headers: {
-                authorization: `Bearer ${localStorage.getItem('accessToken')}`
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.deletedCount) {
-                    toast.success(`${name} is removed as user`)
-                    refetch()
-                    console.log(data)
-                }
-                else {
-                    toast.error(`Failed to remove ${name} as user`)
-                }
-            })
-    }
-
     return (
         <tr>
             <th>{index + 1}</th>
             <td>{name}</td>
             <td>{email}</td>
             <td>{role === 'admin' ? <button className="btn btn-xs btn-success" disabled="disabled">Is an Admin</button> : <button onClick={makeAdmin} className="btn btn-warning btn-xs">Make Admin</button>}</td>
-            <td><button onClick={() => handleDelete(email)} className="btn btn-error btn-xs">Remove User</button></td>
+            <td><label onClick={() => setDeletingUser(user)} for="user-confirm-modal" class="btn btn-error btn-xs">Remove</label></td>
         </tr>
     );
 };
