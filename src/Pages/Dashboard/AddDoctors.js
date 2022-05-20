@@ -6,7 +6,7 @@ import Loading from '../Shared/Loading';
 
 const AddDoctors = () => {
     const { register, formState: { errors }, handleSubmit, reset } = useForm();
-    const { data: services, isLoading } = useQuery('services', () => fetch(`http://localhost:5000/service`).then(res => res.json()))
+    const { data: services, isLoading } = useQuery('services', () => fetch(`https://mysterious-tundra-54205.herokuapp.com/service`).then(res => res.json()))
 
     const imageStorageKey = 'a1d7d3a7e4fde5cadc71e0a2315af238';
 
@@ -31,7 +31,7 @@ const AddDoctors = () => {
                         img: img
                     }
 
-                    fetch('http://localhost:5000/doctor', {
+                    fetch('https://mysterious-tundra-54205.herokuapp.com/doctor', {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json',

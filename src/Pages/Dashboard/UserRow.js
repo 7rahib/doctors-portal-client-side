@@ -26,7 +26,7 @@ const UserRow = ({ user, index, refetch }) => {
     }
 
     const handleDelete = email => {
-        fetch(`http://localhost:5000/user/${email}`, {
+        fetch(`https://mysterious-tundra-54205.herokuapp.com/user/${email}`, {
             method: 'DELETE',
             headers: {
                 authorization: `Bearer ${localStorage.getItem('accessToken')}`
