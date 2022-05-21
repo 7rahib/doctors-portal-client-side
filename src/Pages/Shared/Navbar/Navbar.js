@@ -21,7 +21,7 @@ const Navbar = () => {
             {
                 user && <li><Link to="/dashboard">Dashboard</Link></li>
             }
-            <li>{user ? <button onClick={logout} className="btn btn-ghost text-gray-800 text-sm">Sign Out</button> : <Link to="/login">Login</Link>}</li>
+            <li>{user ? <button onClick={logout} className="menu menu-horizontal">Signout</button> : <Link to="/login">Login</Link>}</li>
         </>
 
     return (
